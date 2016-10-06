@@ -7,7 +7,7 @@ config SYS_VENDOR
 	default "friendlyarm"
 
 config SYS_SOC
-	default "s5pc110"
+	default "s5pc1xx"
 
 config SYS_CONFIG_NAME
 	default "smart210"
