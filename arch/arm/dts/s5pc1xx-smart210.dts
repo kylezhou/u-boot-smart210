@@ -1,5 +1,5 @@
 /*
- * Samsung's Exynos4210-based SMDKV310 board device tree source
+ * FriendlyARM's S5PV210-based Smart210 board device tree source
  *
  * Copyright (c) 2014 Google, Inc
  *
@@ -9,28 +9,27 @@
 /dts-v1/;
 
 #include "skeleton.dtsi"
-#include "s5pc100-pinctrl.dtsi"
+#include "s5pc110-pinctrl.dtsi"
 
 / {
-	model = "Samsung SMDKC100 based on S5PC100";
-	compatible = "samsung,smdkc100", "samsung,s5pc100";
+	model = "FriendlyARM Smart210 based on S5PV210";
+	compatible = "friendlyarm,smart210", "samsung,s5pv210";
 
 	aliases {
-		serial0 = "/serial@ec000000";
-		console = "/serial@ec000000";
+		serial2 = "/serial@e2900800";
+		console = "/serial@e2900800";
 		pinctrl0 = &pinctrl0;
 	};
 
-	pinctrl0: pinctrl@e0300000 {
-		compatible = "samsung,s5pc100-pinctrl";
+	pinctrl0: pinctrl@e0200000 {
+		compatible = "samsung,s5pc110-pinctrl";
 		reg = <0xe0200000 0x1000>;
 	};
 
-	serial@ec000000 {
+	serial@e2900800 {
 		compatible = "samsung,exynos4210-uart";
-		reg = <0xec000000 0x100>;
-		interrupts = <0 51 0>;
-		id = <0>;
+		reg = <0xe2900800 0x400>;
+		id = <2>;
 	};
 
 };
