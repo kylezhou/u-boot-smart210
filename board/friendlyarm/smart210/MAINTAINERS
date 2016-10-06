@@ -1,0 +1,6 @@
+SMART210 BOARD
+M:	Kyle Zhou <kyle.zhou@live.com>
+S:	Maintained
+F:	board/friendlyarm/smart210/
+F:	include/configs/smart210.h
+F:	configs/smart210_defconfig

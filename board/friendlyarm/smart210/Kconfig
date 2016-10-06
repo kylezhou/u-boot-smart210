@@ -1,0 +1,15 @@
+if TARGET_SMART210
+
+config SYS_BOARD
+	default "smart210"
+
+config SYS_VENDOR
+	default "friendlyarm"
+
+config SYS_SOC
+	default "s5pc110"
+
+config SYS_CONFIG_NAME
+	default "smart210"
+
+endif
