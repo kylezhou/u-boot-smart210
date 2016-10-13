@@ -1,0 +1,66 @@
+Smart210 from FriendlyARM
+
+
+================CPU board================
+Tiny210V2
+	V1.0/120713
+
+S5PV210AH-A0 - ARM Cortex A8
+K9GAG08U0F - 16Gb F-die Nand Flash MLC 2bit/cell (U2, Xm0FRnB0, Xm0FREn, Xm0CSn2, Xm0CSn3 (NC), Xm0FCLE, Xm0FALE, Xm0FWEn, (nWP=1), Xm0DATA0-7)
+K4T1G084QF x4 - 1Gb E-die DDR2 SDRAM. 128Mbx8, 8 bank, bank addr BA0-2, row addr A0-13, col addr A0-9 (U3, Xm1ADDR0-13, Xm1BA0-2, Xm1DQSn0, Xm1DQS0, Xm1DM0, Xm1SCLKn, Xm1SCLK, Xm1RASn, Xm1CASn, Xm1CSn0, Xm1CKE0, Xm1WEn, Xm1DATA0-31, ODT1)
+MAX811 - voltage monitor with reset input (U8, M_nRESET & VDD_SYS_3.3V->XnRESET)
+DM9000AEP - ISA to Ethernet MAC controller
+WM8960G - Stereo CODEC
+
+23BL1 P3412 - DC/DC step down (U18, VDD_5V to V_SYS_3V3) XPWRRGTON controlled
+rt8024 - U13, VDD_5V to V_PLL XPWRRGTON controlled
+rt8059 - U15, VDD_5V to V_ARM XPWRRGTON controlled
+rt8024 - U16, VDD_5V to V_HDMI XPWRRGTON controlled
+XC6209-1.2V - U14, VDD_5V to VDD_ALIVE_AP 1.2V (always on - connected to S5PV210 VDD_ALIVE_0/1)
+rt8059 - U17, VDD_5V to V_MEM 1.8V XPWRRGTON controlled
+
+XPWRRGTON is very likely always HIGH (according to schematic).
+
+24.000 MHz XCO x2 - X1 XXTI/O; X2 XusbXTI/O
+27MHz XCO - X3 XhdmiXTI/O
+32.768K XCO - X4 XrtcXTI/O
+
+LED1-4 - GPIO J2_0-3 (active low)
+
+
+
+================Base board================
+Tiny210V2 SDK V1.0
+		  120804
+2A11011447A
+
+24.000MHz XCO (for USB controller)
+14.31818MHz XCO (for video decoder)
+
+5150AMI 29 ACOX - NTSC/PAL video decoder
+USB2514B D1230-A2P10 - USB2.0 Hi-Speed hub controller
+
+ATHLH238 - 2-wire serial eeprom (Xi2cSCL0/Xi2cSDA0)
+
+AMS1086CD-3.3 - 5V to 3.3V regulator (main regulator U1, VDD_5V to VDD_3.3V)
+RT9011-MGPJ6 - 5V to 1.8V & 2.8V (VDD_5V to VDD_1.8V and VDD_2.8V)
+
+SP3232EEN - 3.0V to 5.5V RS232 transceiver
+COM0 - RSTXD0/RSRXD0 <-> XuTXD0/XuRXD0
+COM3 - RSTXD3/RSRXD3 <-> XuTXD3/XuRXD3
+CON1-4 - XuTXD0-3/XuRXD0-3
+CON2 - XuRTSn1/XuCTSn1
+
+MMA7660FC - G-Sensor (U7)
+
+
+Button K1-4 XEINT16-19; K5-8 XEINT24-27 (active low)
+K9 - M nRESET
+S1 - Main switch
+S2 - BOOT_CS GND:SD; NC:NAND (XOM5-0: 001100 SD vs 000010 NAND 2KB 5cycle 8-bit ECC)
+
+SD card (CON10) - Xmmc0CDn, XmmcCLK0, XmmcCMD0, Xmmc0DATA0-3, XEINT6_SD0_nWP (NC)
+
+SDIO - XEINT11, XmmcCDn2, XmmcCLK2, XmmcCMD2, Xmmc2DATA0-3; XuTXD2/XuRXD2; Xi2cSCL0/Xi2cSDA0; XspiMOSI0/XspiMISO0, XspiCLK0/XspiCS0; WIFI0_PD_GPIO, WIFI0_RESET_GPIO
+
+Buzzer - XpwmTOUT0

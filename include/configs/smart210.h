@@ -45,7 +45,7 @@
 /*
  * select serial console configuration
  */
-#define CONFIG_SERIAL2			1	/* use SERIAL2 */
+#define CONFIG_SERIAL0			1	/* use SERIAL0 */
 #define CONFIG_BAUDRATE			115200
 
 /* MMC */
@@ -64,20 +64,23 @@
 #define CONFIG_CMD_ONENAND
 #define CONFIG_CMD_GPT
 
-/* USB Composite download gadget - g_dnl */
+/* USB Composite download gadget - g_dnl 
 #define CONFIG_SYS_DFU_DATA_BUF_SIZE SZ_32M
 #define DFU_DEFAULT_POLL_TIMEOUT 300
+*/
 
-/* TIZEN THOR downloader support */
+/* TIZEN THOR downloader support 
 #define CONFIG_CMD_THOR_DOWNLOAD
 #define CONFIG_USB_FUNCTION_THOR
+*/
 
-/* USB Samsung's IDs */
+/* USB Samsung's IDs 
 
 #define CONFIG_G_DNL_THOR_VENDOR_NUM 0x04E8
 #define CONFIG_G_DNL_THOR_PRODUCT_NUM 0x685D
 #define CONFIG_G_DNL_UMS_VENDOR_NUM 0x0525
 #define CONFIG_G_DNL_UMS_PRODUCT_NUM 0xA4A5
+*/
 
 /* Actual modem binary size is 16MiB. Add 2MiB for bad block handling */
 #define MTDIDS_DEFAULT		"onenand0=samsung-onenand"
@@ -118,7 +121,7 @@
 
 #define CONFIG_BOOTCOMMAND	"run mmcboot"
 
-#define CONFIG_DEFAULT_CONSOLE	"console=ttySAC2,115200n8\0"
+#define CONFIG_DEFAULT_CONSOLE	"console=ttySAC0,115200n8\0"
 
 #define CONFIG_RAMDISK_BOOT	"root=/dev/ram0 rw rootfstype=ext4" \
 		" ${console} ${meminfo}"
@@ -196,14 +199,10 @@
 #define CONFIG_SYS_MEMTEST_END		(CONFIG_SYS_SDRAM_BASE + 0x5000000)
 #define CONFIG_SYS_LOAD_ADDR		(CONFIG_SYS_SDRAM_BASE + 0x4000000)
 
-/* Goni has 3 banks of DRAM, but swap the bank */
-#define CONFIG_NR_DRAM_BANKS	3
-#define PHYS_SDRAM_1		CONFIG_SYS_SDRAM_BASE	/* OneDRAM Bank #0 */
-#define PHYS_SDRAM_1_SIZE	(80 << 20)		/* 80 MB in Bank #0 */
-#define PHYS_SDRAM_2		0x40000000		/* mDDR DMC1 Bank #1 */
-#define PHYS_SDRAM_2_SIZE	(256 << 20)		/* 256 MB in Bank #1 */
-#define PHYS_SDRAM_3		0x50000000		/* mDDR DMC2 Bank #2 */
-#define PHYS_SDRAM_3_SIZE	(128 << 20)		/* 128 MB in Bank #2 */
+/* Smart210 has 1 bank of DRAM */
+#define CONFIG_NR_DRAM_BANKS	1
+#define PHYS_SDRAM_1		CONFIG_SYS_SDRAM_BASE	/* DRAM Bank #0 */
+#define PHYS_SDRAM_1_SIZE	(512 << 20)		/* 512 MB in Bank #0 */
 
 #define CONFIG_SYS_MONITOR_BASE		0x00000000
 #define CONFIG_SYS_MONITOR_LEN		(256 << 10)	/* 256 KiB */
@@ -232,19 +231,22 @@
 
 #define CONFIG_SYS_INIT_SP_ADDR	(CONFIG_SYS_LOAD_ADDR - 0x1000000)
 
+/*
 #define CONFIG_POWER
 #define CONFIG_POWER_I2C
 #define CONFIG_POWER_MAX8998
+*/
 
 #include <asm/arch/gpio.h>
 /*
  * I2C Settings
  */
+/*
 #define CONFIG_SOFT_I2C_GPIO_SCL S5PC110_GPIO_J43
 #define CONFIG_SOFT_I2C_GPIO_SDA S5PC110_GPIO_J40
 
 #define CONFIG_SYS_I2C
-#define CONFIG_SYS_I2C_SOFT		/* I2C bit-banged */
+#define CONFIG_SYS_I2C_SOFT		 I2C bit-banged 
 #define CONFIG_SYS_I2C_SOFT_SPEED	50000
 #define CONFIG_SYS_I2C_SOFT_SLAVE	0x7F
 #define CONFIG_I2C_MULTI_BUS
@@ -253,5 +255,11 @@
 #define CONFIG_SYS_MAX_I2C_BUS	7
 #define CONFIG_USB_GADGET_DWC2_OTG_PHY
 #define CONFIG_USB_FUNCTION_MASS_STORAGE
+*/
+
+/* SPL */
+#define CONFIG_SPL_TEXT_BASE 0x000020010
+#define CONFIG_SPL_LDSCRIPT	"board/samsung/common/exynos-uboot-spl.lds"
+#define CONFIG_SPL_MAX_FOOTPRINT	(8 * 1024)
 
 #endif	/* __CONFIG_H */

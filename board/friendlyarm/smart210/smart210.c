@@ -27,7 +27,7 @@ u32 get_board_rev(void)
 int board_init(void)
 {
 	/* Set Initial global variables */
-	gd->bd->bi_arch_number = MACH_TYPE_GONI;
+    gd->bd->bi_arch_number = MACH_TYPE_SMART210; // TODO: what code to use?
 	gd->bd->bi_boot_params = PHYS_SDRAM_1 + 0x100;
 
 	return 0;
@@ -36,7 +36,7 @@ int board_init(void)
 #ifdef CONFIG_SYS_I2C_INIT_BOARD
 void i2c_init_board(void)
 {
-	gpio_request(S5PC110_GPIO_J43, "i2c_clk");
+    gpio_request(S5PC110_GPIO_J43, "i2c_clk"); // TODO: J40&43 are connected to wifi1 on smart210
 	gpio_request(S5PC110_GPIO_J40, "i2c_data");
 	gpio_direction_output(S5PC110_GPIO_J43, 1);
 	gpio_direction_output(S5PC110_GPIO_J40, 1);
@@ -45,17 +45,12 @@ void i2c_init_board(void)
 
 int power_init_board(void)
 {
-	/*
-	 * For PMIC the I2C bus is named as I2C5, but it is connected
-	 * to logical I2C adapter 0
-	 */
-	return pmic_init(I2C_0);
+    return 0; // TODO: smart210 does not have pmic
 }
 
 int dram_init(void)
 {
-	gd->ram_size = PHYS_SDRAM_1_SIZE + PHYS_SDRAM_2_SIZE +
-			PHYS_SDRAM_3_SIZE;
+	gd->ram_size = PHYS_SDRAM_1_SIZE;
 
 	return 0;
 }
@@ -64,16 +59,12 @@ void dram_init_banksize(void)
 {
 	gd->bd->bi_dram[0].start = PHYS_SDRAM_1;
 	gd->bd->bi_dram[0].size = PHYS_SDRAM_1_SIZE;
-	gd->bd->bi_dram[1].start = PHYS_SDRAM_2;
-	gd->bd->bi_dram[1].size = PHYS_SDRAM_2_SIZE;
-	gd->bd->bi_dram[2].start = PHYS_SDRAM_3;
-	gd->bd->bi_dram[2].size = PHYS_SDRAM_3_SIZE;
 }
 
 #ifdef CONFIG_DISPLAY_BOARDINFO
 int checkboard(void)
 {
-	puts("Board:\tGoni\n");
+	puts("Board:\tSmart210\n");
 	return 0;
 }
 #endif
@@ -84,8 +75,8 @@ int board_mmc_init(bd_t *bis)
 	int i, ret, ret_sd = 0;
 
 	/* MASSMEMORY_EN: XMSMDATA7: GPJ2[7] output high */
-	gpio_request(S5PC110_GPIO_J27, "massmemory_en");
-	gpio_direction_output(S5PC110_GPIO_J27, 1);
+	//gpio_request(S5PC110_GPIO_J27, "massmemory_en"); // TODO: there is no massmemory_en in 210
+	//gpio_direction_output(S5PC110_GPIO_J27, 1);
 
 	/*
 	 * MMC0 GPIO
@@ -108,7 +99,8 @@ int board_mmc_init(bd_t *bis)
 	ret = s5p_mmc_init(0, 4);
 	if (ret)
 		error("MMC: Failed to init MMC:0.\n");
-
+#if 0
+	// TODO: mmc2 is used for sdio on 210
 	/*
 	 * SD card (T_FLASH) detect and init
 	 * T_FLASH_DETECT: EINT28: GPH3[4] input mode
@@ -134,7 +126,7 @@ int board_mmc_init(bd_t *bis)
 		if (ret_sd)
 			error("MMC: Failed to init SD card (MMC:2).\n");
 	}
-
+#endif
 	return ret & ret_sd;
 }
 #endif

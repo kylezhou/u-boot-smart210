@@ -52,20 +52,20 @@ lowlevel_init:
 
 skip_check_didle:
 	addeq	r0, r8, #0x280				@ S5PC100_GPIO_J4
-	addne	r0, r8, #0x2C0				@ S5PC110_GPIO_J4
+	addne	r0, r8, #0x280				@ S5PC110_GPIO_J2
 	ldr	r1, [r0, #0x0]				@ GPIO_CON_OFFSET
-	bic	r1, r1, #(0xf << 4)			@ 1 * 4-bit
-	orr	r1, r1, #(0x1 << 4)
+	bic	r1, r1, #(0xf << 4)			@ 1 * 4-bit J2_1 (LED2)
+	orr	r1, r1, #(0x1 << 4)         @ set output
 	str	r1, [r0, #0x0]				@ GPIO_CON_OFFSET
 
 	ldr	r1, [r0, #0x4]				@ GPIO_DAT_OFFSET
-	bic	r1, r1, #(1 << 1)
+	bic	r1, r1, #(1 << 1)           @ turn on J2_1 (active low)
 	str	r1, [r0, #0x4]				@ GPIO_DAT_OFFSET
 
 	/* Don't setup at s5pc100 */
 	beq	100f
 
-	/*
+	/* Use full synchronizer.
 	 * Initialize Async Register Setting for EVT1
 	 * Because we are setting EVT1 as the default value of EVT0,
 	 * setting EVT0 as well does not make things worse.
@@ -166,7 +166,7 @@ skip_check_didle:
 	/* setting SRAM */
 	ldreq	r0, =S5PC100_SROMC_BASE
 	ldrne	r0, =S5PC110_SROMC_BASE
-	ldr	r1, =0x9
+	ldr	r1, =0x9                            @ 16-bit data bus for memory bank1 TODO: no need
 	str	r1, [r0]
 
 	/* S5PC100 has 3 groups of interrupt sources */
@@ -383,8 +383,8 @@ system_clock_init:
 
 internal_ram_init:
 	ldreq	r0, =0xE3800000
-	ldrne	r0, =0xF1500000
-	ldr	r1, =0x0
+	ldrne	r0, =0xF1500000     @ TZPCR0SIZE
+	ldr	r1, =0x0                @ no secure region
 	str	r1, [r0]
 
 	mov	pc, lr

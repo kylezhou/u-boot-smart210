@@ -14,6 +14,7 @@ config TARGET_SMDKC100
 
 config TARGET_SMART210
 	bool "Support smart210 board"
+	select SUPPORT_SPL
 	select OF_CONTROL
 
 endchoice
