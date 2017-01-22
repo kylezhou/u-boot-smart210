@@ -15,7 +15,6 @@
 /* U-Boot Build Configuration */
 #define CONFIG_SKIP_LOWLEVEL_INIT	/* U-Boot is a 2nd stage loader */
 #define CONFIG_BOARD_EARLY_INIT_F
-#define CONFIG_DISPLAY_CPUINFO
 
 /* SoC Configuration */
 #define CONFIG_ARCH_CPU_INIT
@@ -68,14 +67,14 @@
 #define CONFIG_CONS_INDEX		1
 
 #ifndef CONFIG_SOC_K2G
-#define CONFIG_SYS_NS16550_CLK		clk_get_rate(KS2_CLK1_6)
+#define CONFIG_SYS_NS16550_CLK		ks_clk_get_rate(KS2_CLK1_6)
 #else
-#define CONFIG_SYS_NS16550_CLK		clk_get_rate(uart_pll_clk) / 2
+#define CONFIG_SYS_NS16550_CLK		ks_clk_get_rate(uart_pll_clk) / 2
 #endif
 
 /* SPI Configuration */
 #define CONFIG_DAVINCI_SPI
-#define CONFIG_SYS_SPI_CLK		clk_get_rate(KS2_CLK1_6)
+#define CONFIG_SYS_SPI_CLK		ks_clk_get_rate(KS2_CLK1_6)
 #define CONFIG_SF_DEFAULT_SPEED		30000000
 #define CONFIG_ENV_SPI_MAX_HZ		CONFIG_SF_DEFAULT_SPEED
 #define CONFIG_SYS_SPI0
@@ -221,6 +220,8 @@
 	"set_rd_spec=setenv rd_spec ${rdaddr}:${filesize}\0"		\
 	"init_fw_rd_net=dhcp ${rdaddr} ${tftp_root}/${name_fw_rd}; "	\
 		"run set_rd_spec\0"					\
+	"init_fw_rd_nfs=nfs ${rdaddr} ${nfs_root}/boot/${name_fw_rd}; "	\
+		"run set_rd_spec\0"					\
 	"init_fw_rd_ramfs=setenv rd_spec -\0"				\
 	"init_fw_rd_ubi=ubifsload ${rdaddr} ${bootdir}/${name_fw_rd}; "	\
 		"run set_rd_spec\0"					\
@@ -229,6 +230,7 @@
 	"set_name_pmmc=setenv name_pmmc ti-sci-firmware-${soc_variant}.bin\0" \
 	"dev_pmmc=0\0"							\
 	"get_pmmc_net=dhcp ${loadaddr} ${tftp_root}/${name_pmmc}\0"	\
+	"get_pmmc_nfs=nfs ${loadaddr} ${nfs_root}/boot/${name_pmmc}\0"	\
 	"get_pmmc_ramfs=run get_pmmc_net\0"				\
 	"get_pmmc_mmc=load mmc ${bootpart} ${loadaddr} "		\
 			"${bootdir}/${name_pmmc}\0"			\
@@ -302,10 +304,8 @@
 #include <configs/ti_armv7_common.h>
 
 /* We wont be loading up OS from SPL for now.. */
-#undef CONFIG_SPL_OS_BOOT
 
 /* We do not have MMC support.. yet.. */
-#undef CONFIG_MMC
 #undef CONFIG_GENERIC_MMC
 
 /* And no support for GPIO, yet.. */
@@ -314,7 +314,7 @@
 #include <asm/arch/hardware.h>
 #include <asm/arch/clock.h>
 #ifndef CONFIG_SOC_K2G
-#define CONFIG_SYS_HZ_CLOCK		clk_get_rate(KS2_CLK1_6)
+#define CONFIG_SYS_HZ_CLOCK		ks_clk_get_rate(KS2_CLK1_6)
 #else
 #define CONFIG_SYS_HZ_CLOCK		external_clk[sys_clk]
 #endif

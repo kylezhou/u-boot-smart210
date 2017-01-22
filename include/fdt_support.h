@@ -93,7 +93,15 @@ int fdt_fixup_memory(void *blob, u64 start, u64 size);
  *			property will be left untouched.
  * @return 0 if ok, or -1 or -FDT_ERR_... on error
  */
+#ifdef CONFIG_ARCH_FIXUP_FDT_MEMORY
 int fdt_fixup_memory_banks(void *blob, u64 start[], u64 size[], int banks);
+#else
+static inline int fdt_fixup_memory_banks(void *blob, u64 start[], u64 size[],
+					 int banks)
+{
+	return 0;
+}
+#endif
 
 void fdt_fixup_ethernet(void *fdt);
 int fdt_find_and_setprop(void *fdt, const char *node, const char *prop,
@@ -167,7 +175,15 @@ void ft_pci_setup(void *blob, bd_t *bd);
 int ft_system_setup(void *blob, bd_t *bd);
 
 void set_working_fdt_addr(ulong addr);
-int fdt_shrink_to_minimum(void *blob);
+
+/**
+ * shrink down the given blob to minimum size + some extrasize if required
+ *
+ * @param blob		FDT blob to update
+ * @param extrasize	additional bytes needed
+ * @return 0 if ok, or -FDT_ERR_... on error
+ */
+int fdt_shrink_to_minimum(void *blob, uint extrasize);
 int fdt_increase_size(void *fdt, int add_len);
 
 int fdt_fixup_nor_flash_size(void *blob);

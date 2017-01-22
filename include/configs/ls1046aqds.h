@@ -9,9 +9,6 @@
 
 #include "ls1046a_common.h"
 
-#define CONFIG_DISPLAY_CPUINFO
-#define CONFIG_DISPLAY_BOARDINFO
-
 #if defined(CONFIG_NAND_BOOT) || defined(CONFIG_SD_BOOT)
 #define CONFIG_SYS_TEXT_BASE		0x82000000
 #elif defined(CONFIG_QSPI_BOOT)
@@ -48,8 +45,6 @@ unsigned long get_board_ddr_clk(void);
 #define CONFIG_ECC_INIT_VIA_DDRCONTROLLER
 #define CONFIG_MEM_INIT_VALUE           0xdeadbeef
 #endif
-
-#define CONFIG_SYS_HAS_SERDES
 
 /* DSPI */
 #ifdef CONFIG_FSL_DSPI
@@ -130,6 +125,14 @@ unsigned long get_board_ddr_clk(void);
 #define CONFIG_SYS_FLASH_QUIET_TEST
 #define CONFIG_FLASH_SHOW_PROGRESS	45	/* count down from 45/5: 9..1 */
 #endif
+#endif
+
+/* LPUART */
+#ifdef CONFIG_LPUART
+#define CONFIG_LPUART_32B_REG
+#define CFG_UART_MUX_MASK	0x6
+#define CFG_UART_MUX_SHIFT	1
+#define CFG_LPUART_EN		0x2
 #endif
 
 /* SATA */

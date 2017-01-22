@@ -14,9 +14,6 @@
 /* SPL options */
 #include "imx6_spl.h"
 
-#define CONFIG_DISPLAY_CPUINFO
-#define CONFIG_DISPLAY_BOARDINFO
-
 /* Size of malloc() pool */
 #define CONFIG_SYS_MALLOC_LEN		(16 << 20)
 
@@ -45,7 +42,6 @@
 #define CONFIG_SYS_LOAD_ADDR		CONFIG_LOADADDR
 #define CONFIG_SYS_HZ			1000
 
-#define CONFIG_SYS_CONSOLE_INFO_QUIET
 #define CONFIG_CMDLINE_EDITING
 
 /* Physical Memory Map */

@@ -13,7 +13,6 @@
 
 #include <asm/arch/imx-regs.h>
 
-#define CONFIG_DISPLAY_CPUINFO
 #define CONFIG_BOARD_EARLY_INIT_F
 #define CONFIG_REVISION_TAG
 #define CONFIG_SYS_NO_FLASH
@@ -24,7 +23,6 @@
 /*
  * U-Boot Commands
  */
-#define CONFIG_DISPLAY_BOARDINFO
 #define CONFIG_DOS_PARTITION
 #define CONFIG_FAT_WRITE
 
@@ -33,7 +31,6 @@
 #define CONFIG_CMD_NAND
 #define CONFIG_CMD_NAND_TRIMFFS
 #define CONFIG_CMD_SATA
-#define CONFIG_VIDEO
 
 /*
  * Memory configurations
@@ -85,7 +82,6 @@
  * MMC Driver
  */
 #ifdef CONFIG_CMD_MMC
-#define CONFIG_MMC
 #define CONFIG_GENERIC_MMC
 #define CONFIG_FSL_ESDHC
 #define CONFIG_SYS_FSL_ESDHC_ADDR	0
@@ -202,9 +198,6 @@
  */
 #ifdef CONFIG_VIDEO
 #define CONFIG_VIDEO_IPUV3
-#define CONFIG_CFB_CONSOLE
-#define CONFIG_VGA_AS_SINGLE_DEVICE
-#define CONFIG_SYS_CONSOLE_IS_IN_ENV
 #define CONFIG_VIDEO_BMP_RLE8
 #define CONFIG_VIDEO_BMP_GZIP
 #define CONFIG_SPLASH_SCREEN

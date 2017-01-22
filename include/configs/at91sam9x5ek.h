@@ -24,7 +24,6 @@
 #define CONFIG_INITRD_TAG
 #define CONFIG_SKIP_LOWLEVEL_INIT
 #define CONFIG_BOARD_EARLY_INIT_F
-#define CONFIG_DISPLAY_CPUINFO
 
 /* general purpose I/O */
 #define CONFIG_ATMEL_LEGACY		/* required until (g)pio is fixed */
@@ -36,7 +35,6 @@
 #define CONFIG_USART_ID		ATMEL_ID_SYS
 
 /* LCD */
-#define CONFIG_LCD
 #define LCD_BPP			LCD_COLOR16
 #define LCD_OUTPUT_BPP		24
 #define CONFIG_LCD_LOGO
@@ -45,7 +43,6 @@
 #define CONFIG_SYS_WHITE_ON_BLACK
 #define CONFIG_ATMEL_HLCD
 #define CONFIG_ATMEL_LCD_RGB565
-#define CONFIG_SYS_CONSOLE_IS_IN_ENV
 
 
 /*
@@ -114,7 +111,6 @@
 
 /* MMC */
 #ifdef CONFIG_CMD_MMC
-#define CONFIG_MMC
 #define CONFIG_GENERIC_MMC
 #define CONFIG_GENERIC_ATMEL_MCI
 #endif
@@ -239,8 +235,6 @@
 
 #ifdef CONFIG_SYS_USE_MMC
 #define CONFIG_SPL_LDSCRIPT		arch/arm/mach-at91/arm926ejs/u-boot-spl.lds
-#define CONFIG_SYS_U_BOOT_MAX_SIZE_SECTORS	0x400
-#define CONFIG_SYS_MMCSD_RAW_MODE_U_BOOT_SECTOR 0x200
 #define CONFIG_SYS_MMCSD_FS_BOOT_PARTITION	1
 #define CONFIG_SPL_FS_LOAD_PAYLOAD_NAME		"u-boot.img"
 

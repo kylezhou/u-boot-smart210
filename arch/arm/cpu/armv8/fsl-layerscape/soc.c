@@ -31,8 +31,10 @@ bool soc_has_dp_ddr(void)
 	struct ccsr_gur __iomem *gur = (void *)(CONFIG_SYS_FSL_GUTS_ADDR);
 	u32 svr = gur_in32(&gur->svr);
 
-	/* LS2085A has DP_DDR */
-	if (SVR_SOC_VER(svr) == SVR_LS2085A)
+	/* LS2085A, LS2088A, LS2048A has DP_DDR */
+	if ((SVR_SOC_VER(svr) == SVR_LS2085A) ||
+	    (SVR_SOC_VER(svr) == SVR_LS2088A) ||
+	    (SVR_SOC_VER(svr) == SVR_LS2048A))
 		return true;
 
 	return false;
@@ -50,16 +52,16 @@ bool soc_has_aiop(void)
 	return false;
 }
 
-#ifdef CONFIG_LS2080A
+#if defined(CONFIG_FSL_LSCH3)
 /*
  * This erratum requires setting a value to eddrtqcr1 to
  * optimal the DDR performance.
  */
 static void erratum_a008336(void)
 {
+#ifdef CONFIG_SYS_FSL_ERRATUM_A008336
 	u32 *eddrtqcr1;
 
-#ifdef CONFIG_SYS_FSL_ERRATUM_A008336
 #ifdef CONFIG_SYS_FSL_DCSR_DDR_ADDR
 	eddrtqcr1 = (void *)CONFIG_SYS_FSL_DCSR_DDR_ADDR + 0x800;
 	if (fsl_ddr_get_version(0) == 0x50200)
@@ -79,9 +81,9 @@ static void erratum_a008336(void)
  */
 static void erratum_a008514(void)
 {
+#ifdef CONFIG_SYS_FSL_ERRATUM_A008514
 	u32 *eddrtqcr1;
 
-#ifdef CONFIG_SYS_FSL_ERRATUM_A008514
 #ifdef CONFIG_SYS_FSL_DCSR_DDR3_ADDR
 	eddrtqcr1 = (void *)CONFIG_SYS_FSL_DCSR_DDR3_ADDR + 0x800;
 	out_le32(eddrtqcr1, 0x63b20002);
@@ -176,6 +178,7 @@ static void erratum_a009203(void)
 #endif
 #endif
 }
+
 void bypass_smmu(void)
 {
 	u32 val;
@@ -233,9 +236,8 @@ int sata_init(void)
 	out_le32((void *)CONFIG_SYS_DCSR_DCFG_ADDR + 0x520, 0x80000000);
 #endif
 	out_le32(&ccsr_ahci->ppcfg, AHCI_PORT_PHY_1_CFG);
-	out_le32(&ccsr_ahci->pp2c, AHCI_PORT_PHY_2_CFG);
-	out_le32(&ccsr_ahci->pp3c, AHCI_PORT_PHY_3_CFG);
 	out_le32(&ccsr_ahci->ptc, AHCI_PORT_TRANS_CFG);
+	out_le32(&ccsr_ahci->axicc, AHCI_PORT_AXICC_CFG);
 
 	ahci_init((void __iomem *)CONFIG_SYS_SATA);
 	scsi_scan(0);
@@ -321,6 +323,19 @@ void erratum_a010315(void)
 }
 #endif
 
+static void erratum_a010539(void)
+{
+#if defined(CONFIG_SYS_FSL_ERRATUM_A010539) && defined(CONFIG_QSPI_BOOT)
+	struct ccsr_gur __iomem *gur = (void *)(CONFIG_SYS_FSL_GUTS_ADDR);
+	u32 porsr1;
+
+	porsr1 = in_be32(&gur->porsr1);
+	porsr1 &= ~FSL_CHASSIS2_CCSR_PORSR1_RCW_MASK;
+	out_be32((void *)(CONFIG_SYS_DCSR_DCFG_ADDR + DCFG_DCSR_PORCR1),
+		 porsr1);
+#endif
+}
+
 void fsl_lsch2_early_init_f(void)
 {
 	struct ccsr_cci400 *cci = (struct ccsr_cci400 *)CONFIG_SYS_CCI400_ADDR;
@@ -339,7 +354,9 @@ void fsl_lsch2_early_init_f(void)
 #endif
 	/* Make SEC reads and writes snoopable */
 	setbits_be32(&scfg->snpcnfgcr, SCFG_SNPCNFGCR_SECRDSNP |
-		     SCFG_SNPCNFGCR_SECWRSNP);
+		     SCFG_SNPCNFGCR_SECWRSNP |
+		     SCFG_SNPCNFGCR_SATARDSNP |
+		     SCFG_SNPCNFGCR_SATAWRSNP);
 
 	/*
 	 * Enable snoop requests and DVM message requests for
@@ -352,6 +369,46 @@ void fsl_lsch2_early_init_f(void)
 	erratum_a008850_early(); /* part 1 of 2 */
 	erratum_a009929();
 	erratum_a009660();
+	erratum_a010539();
+}
+#endif
+
+#ifdef CONFIG_QSPI_AHB_INIT
+/* Enable 4bytes address support and fast read */
+int qspi_ahb_init(void)
+{
+	u32 *qspi_lut, lut_key, *qspi_key;
+
+	qspi_key = (void *)SYS_FSL_QSPI_ADDR + 0x300;
+	qspi_lut = (void *)SYS_FSL_QSPI_ADDR + 0x310;
+
+	lut_key = in_be32(qspi_key);
+
+	if (lut_key == 0x5af05af0) {
+		/* That means the register is BE */
+		out_be32(qspi_key, 0x5af05af0);
+		/* Unlock the lut table */
+		out_be32(qspi_key + 1, 0x00000002);
+		out_be32(qspi_lut, 0x0820040c);
+		out_be32(qspi_lut + 1, 0x1c080c08);
+		out_be32(qspi_lut + 2, 0x00002400);
+		/* Lock the lut table */
+		out_be32(qspi_key, 0x5af05af0);
+		out_be32(qspi_key + 1, 0x00000001);
+	} else {
+		/* That means the register is LE */
+		out_le32(qspi_key, 0x5af05af0);
+		/* Unlock the lut table */
+		out_le32(qspi_key + 1, 0x00000002);
+		out_le32(qspi_lut, 0x0820040c);
+		out_le32(qspi_lut + 1, 0x1c080c08);
+		out_le32(qspi_lut + 2, 0x00002400);
+		/* Lock the lut table */
+		out_le32(qspi_key, 0x5af05af0);
+		out_le32(qspi_key + 1, 0x00000001);
+	}
+
+	return 0;
 }
 #endif
 
@@ -363,6 +420,9 @@ int board_late_init(void)
 #endif
 #ifdef CONFIG_CHAIN_OF_TRUST
 	fsl_setenv_chain_of_trust();
+#endif
+#ifdef CONFIG_QSPI_AHB_INIT
+	qspi_ahb_init();
 #endif
 
 	return 0;

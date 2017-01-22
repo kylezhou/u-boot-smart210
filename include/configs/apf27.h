@@ -25,12 +25,6 @@
 #define CONFIG_SYS_NO_FLASH
 
 /*
- * Board display option
- */
-#define CONFIG_DISPLAY_BOARDINFO
-#define CONFIG_DISPLAY_CPUINFO
-
-/*
  * SPL
  */
 #define CONFIG_SPL_TARGET	"u-boot-with-spl.bin"
@@ -314,7 +308,6 @@
  * SD/MMC
  */
 #ifdef CONFIG_CMD_MMC
-#define CONFIG_MMC
 #define CONFIG_GENERIC_MMC
 #define CONFIG_MXC_MMC
 #define CONFIG_MXC_MCI_REGS_BASE	0x10014000

@@ -39,7 +39,6 @@
 #define ATMEL_PMC_UHP			AT91SAM926x_PMC_UHP
 
 /* LCD */
-#define CONFIG_LCD
 #define LCD_BPP				LCD_COLOR16
 #define LCD_OUTPUT_BPP                  24
 #define CONFIG_LCD_LOGO
@@ -48,7 +47,6 @@
 #define CONFIG_SYS_WHITE_ON_BLACK
 #define CONFIG_ATMEL_HLCD
 #define CONFIG_ATMEL_LCD_RGB565
-#define CONFIG_SYS_CONSOLE_IS_IN_ENV
 
 /* board specific (not enough SRAM) */
 #define CONFIG_SAMA5D3_LCD_BASE		0x23E00000
@@ -115,7 +113,6 @@
 /* MMC */
 
 #ifdef CONFIG_CMD_MMC
-#define CONFIG_MMC
 #define CONFIG_GENERIC_MMC
 #define CONFIG_GENERIC_ATMEL_MCI
 #define ATMEL_BASE_MMCI			ATMEL_BASE_MCI0
@@ -169,8 +166,6 @@
 
 #ifdef CONFIG_SYS_USE_MMC
 #define CONFIG_SPL_LDSCRIPT		arch/arm/mach-at91/armv7/u-boot-spl.lds
-#define CONFIG_SYS_U_BOOT_MAX_SIZE_SECTORS	0x400
-#define CONFIG_SYS_MMCSD_RAW_MODE_U_BOOT_SECTOR 0x200
 #define CONFIG_SYS_MMCSD_FS_BOOT_PARTITION	1
 #define CONFIG_SPL_FS_LOAD_PAYLOAD_NAME	"u-boot.img"
 

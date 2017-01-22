@@ -256,8 +256,6 @@
 
 #define CONFIG_CMDLINE_EDITING
 
-#define CONFIG_SYS_CONSOLE_IS_IN_ENV
-
 /* Enable flat device tree support */
 #define CONFIG_LMB		1
 
@@ -292,10 +290,7 @@
 #endif
 
 /* for booting directly linux */
-#define CONFIG_SPL_OS_BOOT
 
-#define CONFIG_SYS_OS_BASE		(CONFIG_SYS_FLASH_BASE + \
-					 0x60000)
 #define CONFIG_SYS_FDT_BASE		(CONFIG_SYS_FLASH_BASE + \
 					 0x40000)
 #define CONFIG_SYS_FDT_SIZE		(16<<10)

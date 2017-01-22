@@ -14,7 +14,6 @@
 /*
  * High level configuration
  */
-#define CONFIG_DISPLAY_CPUINFO
 #define CONFIG_DISPLAY_BOARDINFO_LATE
 #define CONFIG_ARCH_MISC_INIT
 #define CONFIG_ARCH_EARLY_INIT_R
@@ -143,7 +142,6 @@
  * MMC Driver
  */
 #ifdef CONFIG_CMD_MMC
-#define CONFIG_MMC
 #define CONFIG_BOUNCE_BUFFER
 #define CONFIG_GENERIC_MMC
 #define CONFIG_DWMMC
@@ -209,6 +207,7 @@ unsigned int cm_get_qspi_controller_clk_hz(void);
 #define CONFIG_CQSPI_REF_CLK		cm_get_qspi_controller_clk_hz()
 #endif
 #define CONFIG_CQSPI_DECODER		0
+#define CONFIG_BOUNCE_BUFFER
 
 /*
  * Designware SPI support
@@ -252,9 +251,6 @@ unsigned int cm_get_qspi_controller_clk_hz(void);
 /*
  * U-Boot environment
  */
-#define CONFIG_SYS_CONSOLE_IS_IN_ENV
-#define CONFIG_SYS_CONSOLE_OVERWRITE_ROUTINE
-#define CONFIG_SYS_CONSOLE_ENV_OVERWRITE
 #if !defined(CONFIG_ENV_SIZE)
 #define CONFIG_ENV_SIZE			4096
 #endif
@@ -324,7 +320,6 @@ unsigned int cm_get_qspi_controller_clk_hz(void);
 #define CONFIG_SPL_FS_LOAD_PAYLOAD_NAME		"u-boot-dtb.img"
 #else
 #define CONFIG_SYS_MMCSD_RAW_MODE_U_BOOT_PARTITION	1
-#define CONFIG_SYS_MMCSD_RAW_MODE_U_BOOT_SECTOR	0x200 /* offset 512 sect (256k) */
 #endif
 #endif
 

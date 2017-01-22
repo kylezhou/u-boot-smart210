@@ -16,7 +16,6 @@
 #include <configs/bur_am335x_common.h>
 /* ------------------------------------------------------------------------- */
 #define CONFIG_AM335X_LCD
-#define CONFIG_LCD
 #define CONFIG_LCD_ROTATION
 #define CONFIG_LCD_DT_SIMPLEFB
 #define CONFIG_SYS_WHITE_ON_BLACK
@@ -49,13 +48,9 @@
 
 /* MMC/SD IP block */
 #if defined(CONFIG_EMMC_BOOT)
- #define CONFIG_MMC
  #define CONFIG_GENERIC_MMC
  #define CONFIG_OMAP_HSMMC
  #define CONFIG_SUPPORT_EMMC_BOOT
-/* RAW SD card / eMMC locations. */
- #define CONFIG_SYS_MMCSD_RAW_MODE_U_BOOT_SECTOR	0x300 /*addr. 0x60000 */
- #define CONFIG_SYS_U_BOOT_MAX_SIZE_SECTORS		0x200 /* 256 KB */
 #endif /* CONFIG_EMMC_BOOT */
 
 /*
@@ -68,7 +63,6 @@
 #define CONFIG_CMD_MTDPARTS
 #endif /* CONFIG_SPI_BOOT, ... */
 
-#undef CONFIG_SPL_OS_BOOT
 #ifdef CONFIG_SPL_OS_BOOT
 #define CONFIG_SYS_SPL_ARGS_ADDR		0x80F80000
 

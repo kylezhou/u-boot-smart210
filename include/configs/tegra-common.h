@@ -24,12 +24,6 @@
 #define CONFIG_SYS_TIMER_COUNTER	NV_PA_TMRUS_BASE
 #endif
 
-/*
- * Display CPU and Board information
- */
-#define CONFIG_DISPLAY_CPUINFO
-#define CONFIG_DISPLAY_BOARDINFO
-
 #define CONFIG_CMDLINE_TAG		/* enable passing of ATAGs */
 
 /* Environment */
@@ -66,12 +60,6 @@
 
 #define CONFIG_SYS_NO_FLASH
 
-#define CONFIG_CONSOLE_MUX
-#define CONFIG_SYS_CONSOLE_IS_IN_ENV
-#ifndef CONFIG_SPL_BUILD
-#define CONFIG_SYS_STDIO_DEREGISTER
-#endif
-
 /*
  * Increasing the size of the IO buffer as default nfsargs size is more
  *  than 256 and so it is not possible to edit it
@@ -87,12 +75,6 @@
 
 #define CONFIG_SYS_MEMTEST_START	(NV_PA_SDRC_CS0 + 0x600000)
 #define CONFIG_SYS_MEMTEST_END		(CONFIG_SYS_MEMTEST_START + 0x100000)
-
-#ifndef CONFIG_ARM64
-#ifndef CONFIG_SPL_BUILD
-#define CONFIG_USE_ARCH_MEMCPY
-#endif
-#endif
 
 /*-----------------------------------------------------------------------
  * Physical Memory Map

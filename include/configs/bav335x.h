@@ -357,7 +357,7 @@ DEFAULT_LINUX_BOOT_ENV \
 
 /* USB gadget RNDIS */
 
-#define CONFIG_SPL_LDSCRIPT		"$(CPUDIR)/am33xx/u-boot-spl.lds"
+#define CONFIG_SPL_LDSCRIPT		"arch/arm/mach-omap2/am33xx/u-boot-spl.lds"
 #endif
 
 #ifdef CONFIG_NAND
@@ -513,7 +513,6 @@ DEFAULT_LINUX_BOOT_ENV \
  */
 #if defined(CONFIG_SPI_BOOT)
 /* SPL related */
-#undef CONFIG_SPL_OS_BOOT		/* Not supported by existing map */
 #define CONFIG_SPL_SPI_LOAD
 #define CONFIG_SYS_SPI_U_BOOT_OFFS	0x20000
 

@@ -11,13 +11,10 @@
 
 #include "../board/freescale/common/ics307_clk.h"
 
-#define CONFIG_DISPLAY_BOARDINFO
-
 #ifdef CONFIG_SDCARD
 #define CONFIG_SPL_MMC_MINIMAL
 #define CONFIG_SPL_FLUSH_IMAGE
 #define CONFIG_SPL_TARGET		"u-boot-with-spl.bin"
-#define CONFIG_FSL_LAW			/* Use common FSL init code */
 #define CONFIG_SYS_TEXT_BASE		0x11001000
 #define CONFIG_SPL_TEXT_BASE		0xf8f81000
 #define CONFIG_SPL_PAD_TO		0x20000
@@ -38,7 +35,6 @@
 #define CONFIG_SPL_SPI_FLASH_MINIMAL
 #define CONFIG_SPL_FLUSH_IMAGE
 #define CONFIG_SPL_TARGET		"u-boot-with-spl.bin"
-#define CONFIG_FSL_LAW		/* Use common FSL init code */
 #define CONFIG_SYS_TEXT_BASE		0x11001000
 #define CONFIG_SPL_TEXT_BASE		0xf8f81000
 #define CONFIG_SPL_PAD_TO		0x20000
@@ -90,10 +86,6 @@
 #endif
 
 /* High Level Configuration Options */
-#define CONFIG_BOOKE			/* BOOKE */
-#define CONFIG_E500			/* BOOKE e500 family */
-#define CONFIG_P1022
-#define CONFIG_P1022DS
 #define CONFIG_MP			/* support multiple processors */
 
 #ifndef CONFIG_SYS_TEXT_BASE
@@ -105,7 +97,6 @@
 #endif
 
 #define CONFIG_FSL_ELBC			/* Has Enhanced localbus controller */
-#define CONFIG_PCI			/* Enable PCI/PCIE */
 #define CONFIG_PCIE1			/* PCIE controller 1 (slot 1) */
 #define CONFIG_PCIE2			/* PCIE controller 2 (slot 2) */
 #define CONFIG_PCIE3			/* PCIE controller 3 (ULI bridge) */
@@ -119,8 +110,6 @@
 #define CONFIG_ADDR_MAP
 #define CONFIG_SYS_NUM_ADDR_MAP		16	/* number of TLB1 entries */
 #endif
-
-#define CONFIG_FSL_LAW			/* Use common FSL init code */
 
 #define CONFIG_SYS_CLK_FREQ	get_board_sys_clk()
 #define CONFIG_DDR_CLK_FREQ	get_board_ddr_clk()
@@ -147,7 +136,6 @@
 /* DDR Setup */
 #define CONFIG_DDR_SPD
 #define CONFIG_VERY_BIG_RAM
-#define CONFIG_SYS_FSL_DDR3
 
 #ifdef CONFIG_DDR_ECC
 #define CONFIG_ECC_INIT_VIA_DDRCONTROLLER
@@ -157,7 +145,6 @@
 #define CONFIG_SYS_DDR_SDRAM_BASE	0x00000000
 #define CONFIG_SYS_SDRAM_BASE		CONFIG_SYS_DDR_SDRAM_BASE
 
-#define CONFIG_NUM_DDR_CONTROLLERS	1
 #define CONFIG_DIMM_SLOTS_PER_CTLR	1
 #define CONFIG_CHIP_SELECTS_PER_CTRL	(2 * CONFIG_DIMM_SLOTS_PER_CTLR)
 
@@ -380,11 +367,7 @@
 
 #ifdef CONFIG_FSL_DIU_FB
 #define CONFIG_SYS_DIU_ADDR	(CONFIG_SYS_CCSRBAR + 0x10000)
-#define CONFIG_VIDEO
 #define CONFIG_CMD_BMP
-#define CONFIG_CFB_CONSOLE
-#define CONFIG_VIDEO_SW_CURSOR
-#define CONFIG_VGA_AS_SINGLE_DEVICE
 #define CONFIG_VIDEO_LOGO
 #define CONFIG_VIDEO_BMP_LOGO
 #define CONFIG_CFI_FLASH_USE_WEAK_ACCESSORS
@@ -400,14 +383,10 @@
 
 #ifdef CONFIG_ATI
 #define VIDEO_IO_OFFSET		CONFIG_SYS_PCIE1_IO_VIRT
-#define CONFIG_VIDEO
 #define CONFIG_BIOSEMU
-#define CONFIG_VIDEO_SW_CURSOR
 #define CONFIG_ATI_RADEON_FB
 #define CONFIG_VIDEO_LOGO
 #define CONFIG_SYS_ISA_IO_BASE_ADDRESS VIDEO_IO_OFFSET
-#define CONFIG_CFB_CONSOLE
-#define CONFIG_VGA_AS_SINGLE_DEVICE
 #endif
 
 /* I2C */
@@ -503,7 +482,6 @@
 
 #ifdef CONFIG_PCI
 #define CONFIG_PCI_INDIRECT_BRIDGE
-#define CONFIG_PCI_PNP			/* do pci plug-and-play */
 #define CONFIG_PCI_SCAN_SHOW		/* show pci devices on startup */
 #endif
 
@@ -526,7 +504,6 @@
 #define CONFIG_DOS_PARTITION
 #endif
 
-#define CONFIG_MMC
 #ifdef CONFIG_MMC
 #define CONFIG_FSL_ESDHC
 #define CONFIG_GENERIC_MMC

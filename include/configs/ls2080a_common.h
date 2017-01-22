@@ -9,16 +9,12 @@
 
 #define CONFIG_REMAKE_ELF
 #define CONFIG_FSL_LAYERSCAPE
-#define CONFIG_FSL_LSCH3
 #define CONFIG_MP
 #define CONFIG_GICV3
 #define CONFIG_FSL_TZPC_BP147
 
 #include <asm/arch/ls2080a_stream_id.h>
 #include <asm/arch/config.h>
-#if (defined(CONFIG_SYS_FSL_SRDS_1) || defined(CONFIG_SYS_FSL_SRDS_2))
-#define	CONFIG_SYS_HAS_SERDES
-#endif
 
 /* Link Definitions */
 #define CONFIG_SYS_INIT_SP_ADDR		(CONFIG_SYS_FSL_OCRAM_BASE + 0xfff0)
@@ -50,7 +46,6 @@
 #define CONFIG_FSL_DDR_INTERACTIVE	/* Interactive debugging */
 #endif
 #ifndef CONFIG_SYS_FSL_DDR4
-#define CONFIG_SYS_FSL_DDR3		/* Use DDR3 memory */
 #define CONFIG_SYS_DDR_RAW_TIMING
 #endif
 
@@ -215,8 +210,6 @@ unsigned long long get_qixis_addr(void);
 
 #define CONFIG_HWCONFIG
 #define HWCONFIG_BUFFER_SIZE		128
-
-#define CONFIG_DISPLAY_CPUINFO
 
 /* Allow to overwrite serial and ethaddr */
 #define CONFIG_ENV_OVERWRITE

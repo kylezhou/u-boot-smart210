@@ -23,12 +23,6 @@
 #undef CONFIG_SPL_TEXT_BASE
 #define CONFIG_SPL_TEXT_BASE		0x40200000
 
-/*
- * Display CPU and Board information
- */
-#define CONFIG_DISPLAY_CPUINFO		1
-#define CONFIG_DISPLAY_BOARDINFO	1
-
 #define CONFIG_MISC_INIT_R
 
 #define CONFIG_REVISION_TAG		1
@@ -65,7 +59,6 @@
 /* USB device configuration */
 #define CONFIG_USB_DEVICE		1
 #define CONFIG_USB_TTY			1
-#define CONFIG_SYS_CONSOLE_IS_IN_ENV	1
 
 /* Change these to suit your needs */
 #define CONFIG_USBD_VENDORID		0x0451

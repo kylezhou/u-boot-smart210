@@ -47,7 +47,6 @@
 #define CONFIG_INITRD_TAG
 #define CONFIG_SKIP_LOWLEVEL_INIT_ONLY
 #define CONFIG_BOARD_EARLY_INIT_F
-#define CONFIG_DISPLAY_CPUINFO
 
 /* general purpose I/O */
 #define CONFIG_ATMEL_LEGACY		/* required until (g)pio is fixed */
@@ -140,7 +139,6 @@
 
 #if defined(CONFIG_SPL_BUILD)
 /* SPL related */
-#undef CONFIG_SPL_OS_BOOT		/* Not supported by existing map */
 #define CONFIG_SPL_SPI_LOAD
 #define CONFIG_SYS_SPI_U_BOOT_OFFS	0x20000
 

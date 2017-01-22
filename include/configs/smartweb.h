@@ -47,7 +47,6 @@
 #define CONFIG_INITRD_TAG		/* pass initrd param to kernel */
 #define CONFIG_SKIP_LOWLEVEL_INIT_ONLY	/* U-Boot is loaded by a bootloader */
 #define CONFIG_BOARD_EARLY_INIT_F	/* call board_early_init_f() */
-#define CONFIG_DISPLAY_CPUINFO		/* display CPU Info at startup */
 
 /* We set the max number of command args high to avoid HUSH bugs. */
 #define CONFIG_SYS_MAXARGS    32
@@ -276,6 +275,5 @@
 #define CONFIG_SYS_THUMB_BUILD
 #define CONFIG_SYS_ICACHE_OFF
 #define CONFIG_SYS_DCACHE_OFF
-#undef CONFIG_SPL_OS_BOOT		/* Not supported by existing map */
 #endif
 #endif /* __CONFIG_H */

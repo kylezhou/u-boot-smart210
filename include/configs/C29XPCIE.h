@@ -11,12 +11,6 @@
 #ifndef __CONFIG_H
 #define __CONFIG_H
 
-#define CONFIG_DISPLAY_BOARDINFO
-
-#ifdef CONFIG_C29XPCIE
-#define CONFIG_PPC_C29X
-#endif
-
 #ifdef CONFIG_SPIFLASH
 #define CONFIG_RAMBOOT_SPIFLASH
 #define CONFIG_SYS_TEXT_BASE		0x11000000
@@ -74,13 +68,10 @@
 #endif
 
 /* High Level Configuration Options */
-#define CONFIG_BOOKE			/* BOOKE */
-#define CONFIG_E500			/* BOOKE e500 family */
 #define CONFIG_FSL_IFC			/* Enable IFC Support */
 #define CONFIG_FSL_CAAM			/* Enable SEC/CAAM */
 #define CONFIG_SYS_HAS_SERDES		/* common SERDES init code */
 
-#define CONFIG_PCI			/* Enable PCI/PCIE */
 #ifdef CONFIG_PCI
 #define CONFIG_PCIE1			/* PCIE controller 1 (slot 1) */
 #define CONFIG_FSL_PCI_INIT		/* Use common FSL init code */
@@ -105,13 +96,10 @@
 #define CONFIG_SYS_PCIE1_IO_SIZE	0x00010000	/* 64k */
 #define CONFIG_SYS_PCIE1_IO_PHYS	0xfffc00000ull
 
-#define CONFIG_PCI_PNP			/* do pci plug-and-play */
-
 #define CONFIG_PCI_SCAN_SHOW		/* show pci devices on startup */
 #define CONFIG_DOS_PARTITION
 #endif
 
-#define CONFIG_FSL_LAW			/* Use common FSL init code */
 #define CONFIG_TSEC_ENET
 #define CONFIG_ENV_OVERWRITE
 
@@ -138,7 +126,6 @@
 #define CONFIG_PANIC_HANG
 
 /* DDR Setup */
-#define CONFIG_SYS_FSL_DDR3
 #define CONFIG_DDR_SPD
 #define CONFIG_SYS_SPD_BUS_NUM		0
 #define SPD_EEPROM_ADDRESS		0x50
@@ -373,8 +360,6 @@
 #if defined(CONFIG_SPL_BUILD) && defined(CONFIG_SPL_INIT_MINIMAL)
 #define CONFIG_NS16550_MIN_FUNCTIONS
 #endif
-
-#define CONFIG_SYS_CONSOLE_IS_IN_ENV
 
 #define CONFIG_SYS_BAUDRATE_TABLE	\
 	{300, 600, 1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200}
