@@ -12,7 +12,10 @@
 #define __CONFIG_H
 
 /* High Level Configuration Options */
+#if 0
 #define CONFIG_SAMSUNG		1	/* in a SAMSUNG core */
+#endif
+
 #define CONFIG_S5P		1	/* which is in an S5P Family */
 #define CONFIG_S5PC110		1	/* which is in an S5PC110 */
 #define CONFIG_SMART210		1	/* working with SMART210 */
@@ -231,8 +234,14 @@
 */
 
 /* SPL */
-#define CONFIG_SPL_TEXT_BASE 0x000020010
-#define CONFIG_SPL_LDSCRIPT	"board/samsung/common/exynos-uboot-spl.lds"
+#define CONFIG_SPL_TEXT_BASE 0xD0020010
+#define CONFIG_SPL_STACK 0xD0037D80
+#define CONFIG_SPL_LDSCRIPT	"board/friendlyarm/smart210/u-boot-spl.lds"
 #define CONFIG_SPL_MAX_FOOTPRINT	(8 * 1024)
+
+/* U-Boot copy size from boot Media to DRAM.*/
+#define	COPY_BL2_SIZE		0x80000
+#define BL2_START_OFFSET	((CONFIG_ENV_OFFSET + CONFIG_ENV_SIZE)/512)
+#define BL2_SIZE_BLOC_COUNT	(COPY_BL2_SIZE/512)
 
 #endif	/* __CONFIG_H */

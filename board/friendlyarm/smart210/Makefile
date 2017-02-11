@@ -11,3 +11,9 @@
 obj-y	:= smart210.o
 obj-$(CONFIG_SAMSUNG_ONENAND)	+= onenand.o
 obj-y	+= lowlevel_init.o
+
+
+ifdef CONFIG_SPL_BUILD
+obj-y += spl_boot.o
+obj-y += spl_lowlevel_init.o
+endif

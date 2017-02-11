@@ -6,8 +6,13 @@ Tiny210V2
 	V1.0/120713
 
 S5PV210AH-A0 - ARM Cortex A8
+
 K9GAG08U0F - 16Gb F-die Nand Flash MLC 2bit/cell (U2, Xm0FRnB0, Xm0FREn, Xm0CSn2, Xm0CSn3 (NC), Xm0FCLE, Xm0FALE, Xm0FWEn, (nWP=1), Xm0DATA0-7)
+2GB in total, 8KB per page, 128 Pages per Block, 2076 Blocks per device
+
 K4T1G084QF x4 - 1Gb E-die DDR2 SDRAM. 128Mbx8, 8 bank, bank addr BA0-2, row addr A0-13, col addr A0-9 (U3, Xm1ADDR0-13, Xm1BA0-2, Xm1DQSn0, Xm1DQS0, Xm1DM0, Xm1SCLKn, Xm1SCLK, Xm1RASn, Xm1CASn, Xm1CSn0, Xm1CKE0, Xm1WEn, Xm1DATA0-31, ODT1)
+512MB in total: 0x2000_0000 - 0x3fff_ffff @ DRAM0 connected to DMC0
+
 MAX811 - voltage monitor with reset input (U8, M_nRESET & VDD_SYS_3.3V->XnRESET)
 DM9000AEP - ISA to Ethernet MAC controller
 WM8960G - Stereo CODEC

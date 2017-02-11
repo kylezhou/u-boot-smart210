@@ -134,6 +134,7 @@ int board_mmc_init(bd_t *bis)
 #ifdef CONFIG_USB_GADGET
 static int s5pc1xx_phy_control(int on)
 {
+#ifndef CONFIG_DM_I2C /* TODO(maintainer): Convert to driver model */
 	int ret;
 	static int status;
 	struct pmic *p = pmic_get("MAX8998_PMIC");
@@ -165,7 +166,7 @@ static int s5pc1xx_phy_control(int on)
 		status = 0;
 	}
 	udelay(10000);
-
+#endif
 	return 0;
 }
 
