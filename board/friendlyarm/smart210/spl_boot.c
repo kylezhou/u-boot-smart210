@@ -135,13 +135,15 @@ void power_exit_wakeup(void)
 
 void board_init_f(unsigned long bootflag)
 {
+#if 0
 	__aligned(8) gd_t local_gd;
-	__attribute__((noreturn)) void (*uboot)(void);
 
 	setup_global_data(&local_gd);
+#endif
 
-	if (do_lowlevel_init())
-		power_exit_wakeup();
+	__attribute__((noreturn)) void (*uboot)(void);
+
+	do_lowlevel_init();
 
 	copy_uboot_to_ram();
 
@@ -156,6 +158,5 @@ void board_init_r(gd_t *id, ulong dest_addr)
 {
 	/* Function attribute is no-return */
 	/* This Function never executes */
-	while (1)
-		;
+	while (1);
 }

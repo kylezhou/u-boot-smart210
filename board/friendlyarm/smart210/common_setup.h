@@ -25,8 +25,6 @@
 
 //#include <asm/arch/system.h>
 
-#define DMC_OFFSET	0x10000
-
 /*
  * Memory initialization.
  */
@@ -36,12 +34,12 @@ void mem_ctrl_init(void);
 void system_clock_init(void);
 
 /*
- * Init subsystems according to the reset status
- *
- * @return 0 for a normal boot, non-zero for a resume
+ * Init subsystems
  */
-int do_lowlevel_init(void);
+void do_lowlevel_init(void);
 
+
+#if 0
 void sdelay(unsigned long);
 
 enum l2_cache_params {
@@ -57,3 +55,4 @@ enum l2_cache_params {
 	CACHE_ENABLE_FORCE_L2_LOGIC = (1 << 27)
 };
 
+#endif

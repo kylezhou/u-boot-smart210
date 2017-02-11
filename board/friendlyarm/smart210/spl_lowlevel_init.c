@@ -168,37 +168,12 @@ void mem_ctrl_init(void)
 	writel(0x00202400, &dmc1->memcontrol);
 }
 
-/* These are the things we can do during low-level init */
-enum {
-	DO_WAKEUP	= 1 << 0,
-	DO_CLOCKS	= 1 << 1,
-	DO_MEM_RESET	= 1 << 2,
-	DO_UART		= 1 << 3,
-	DO_POWER	= 1 << 4,
-};
-
-int do_lowlevel_init(void)
+void do_lowlevel_init(void)
 {
-	//uint32_t reset_status;
-	int actions = 0;
-
 	arch_cpu_init();
 
-	/* This is a normal boot (not a wake from sleep) */
-	actions = DO_CLOCKS | DO_MEM_RESET | DO_POWER;
+	system_clock_init();
 
-	if (actions & DO_CLOCKS) {
-		system_clock_init();
-#ifdef CONFIG_DEBUG_UART
-#if (defined(CONFIG_SPL_BUILD) && defined(CONFIG_SPL_SERIAL_SUPPORT)) || \
-    !defined(CONFIG_SPL_BUILD)
-		exynos_pinmux_config(PERIPH_ID_UART3, PINMUX_FLAG_NONE);
-		debug_uart_init();
-#endif
-#endif
-		mem_ctrl_init();
-//		tzpc_init();
-	}
+	mem_ctrl_init();
 
-	return actions & DO_WAKEUP;
 }

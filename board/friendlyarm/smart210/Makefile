@@ -8,12 +8,16 @@
 # SPDX-License-Identifier:	GPL-2.0+
 #
 
-obj-y	:= smart210.o
+obj-y	:= lowlevel_init.o
 obj-$(CONFIG_SAMSUNG_ONENAND)	+= onenand.o
-obj-y	+= lowlevel_init.o
-
 
 ifdef CONFIG_SPL_BUILD
 obj-y += spl_boot.o
 obj-y += spl_lowlevel_init.o
+hostprogs-y := tools/mksmart210spl
+HOSTCFLAGS_mksmart210spl.o := -pedantic
+always := $(hostprogs-y)
+else
+obj-y += smart210.o
 endif
+
