@@ -21,3 +21,16 @@ else
 obj-y += smart210.o
 endif
 
+#
+# Use native tools and options
+# Define __KERNEL_STRICT_NAMES to prevent typedef overlaps
+# Define _GNU_SOURCE to obtain the getline prototype from stdio.h
+#
+HOST_EXTRACFLAGS += -include $(srctree)/include/libfdt_env.h \
+		$(patsubst -I%,-idirafter%, $(filter -I%, $(UBOOTINCLUDE))) \
+		-I$(srctree)/lib/libfdt \
+		-I$(srctree)/tools \
+		-DCONFIG_SYS_TEXT_BASE=$(CONFIG_SYS_TEXT_BASE) \
+		-DUSE_HOSTCC \
+		-D__KERNEL_STRICT_NAMES \
+		-D_GNU_SOURCE

@@ -12,27 +12,7 @@
 #include <string.h>
 #include <sys/stat.h>
 
-#if defined(linux) || defined(Linux) || defined(__linux__) || defined(__linux) || defined(__gnu_linux__)
-#include <compiler.h>
-#endif
-
-#if defined(__CYGWIN32__)
-#define cpu_to_le32(x) (x)
-#endif
-
-#if defined(__WIN__)
-#define cpu_to_le32(x) (x)
-#endif
-
-#if defined(__APPLE_CC__)
-#if defined(__x86_64__) && defined(__APPLE__)
-#include <libkern/OSByteOrder.h>
-#define cpu_to_le32(x) (unsigned long) OSSwapHostToLittleInt32((uint32_t)x)
-#else
-#include <architecture/byte_order.h>
-#define cpu_to_le32(x) NXSwapHostLongToLittle(x)
-#endif
-#endif
+#include "compiler.h"
 
 #define IMG_SIZE		(16*1024)
 #define SPL_HEADER      "S5PC110 HEADER  "
