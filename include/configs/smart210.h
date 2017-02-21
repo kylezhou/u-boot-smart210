@@ -59,7 +59,9 @@
 #define CONFIG_SYS_NO_FLASH		1
 
 #define CONFIG_CMD_REGINFO
+#if 0
 #define CONFIG_CMD_ONENAND
+#endif
 #define CONFIG_CMD_GPT
 
 /* USB Composite download gadget - g_dnl 
@@ -212,9 +214,11 @@
 #define CONFIG_ENV_OFFSET		((32 - 4) << 10) /* 32KiB - 4KiB */
 #define CONFIG_ENV_OVERWRITE
 
+#if 0
 #define CONFIG_USE_ONENAND_BOARD_INIT
 #define CONFIG_SAMSUNG_ONENAND		1
 #define CONFIG_SYS_ONENAND_BASE		0xB0000000
+#endif
 
 #define CONFIG_DOS_PARTITION		1
 
