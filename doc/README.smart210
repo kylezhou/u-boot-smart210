@@ -14,7 +14,9 @@ K4T1G084QF x4 - 1Gb E-die DDR2 SDRAM. 128Mbx8, 8 bank, bank addr BA0-2, row addr
 512MB in total: 0x2000_0000 - 0x3fff_ffff @ DRAM0 connected to DMC0
 
 MAX811 - voltage monitor with reset input (U8, M_nRESET & VDD_SYS_3.3V->XnRESET)
-DM9000AEP - ISA to Ethernet MAC controller
+
+DM9000AEP - ISA to Ethernet MAC controller (U12, SD0-15 to Xm0DATA0-15, CMD to Xm0ADDR2, INT to XEINT7, IOR# to Xm0OEn, IOW# to Xm0WEn, CS# to Xm0CSn1, PWRST# to XnRSTOUT). SROMC_bank1, addr 0x8800_0000-0x8fff_ffff. 0x8800_0000: ADDRESS port, 0x8800_0004: DATA port.
+
 WM8960G - Stereo CODEC
 
 23BL1 P3412 - DC/DC step down (U18, VDD_5V to V_SYS_3V3) XPWRRGTON controlled

@@ -9,6 +9,7 @@
 #include <common.h>
 #include <asm/gpio.h>
 #include <asm/arch/mmc.h>
+#include <asm/arch/sromc.h>
 #include <power/pmic.h>
 #include <usb/dwc2_udc.h>
 #include <asm/arch/cpu.h>
@@ -24,8 +25,22 @@ u32 get_board_rev(void)
 	return 0;
 }
 
+/* configure sromc
+TODO: use fdt for configuration settings */
+static void dm9000_pre_init(void)
+{
+    u32 smc_bw_conf, smc_bc_conf;
+    smc_bw_conf = SMC_DATA16_WIDTH(CONFIG_ENV_SROM_BANK)
+	| SMC_BYTE_ADDR_MODE(CONFIG_ENV_SROM_BANK);
+    smc_bc_conf = SMC_BC_TACS(0) | SMC_BC_TCOS(1) | SMC_BC_TACC(2)
+	| SMC_BC_TCOH(1) | SMC_BC_TAH(0) | SMC_BC_TACP(0) | SMC_BC_PMC(0);
+    s5p_config_sromc(CONFIG_ENV_SROM_BANK, smc_bw_conf, smc_bc_conf);
+}
+
 int board_init(void)
 {
+    dm9000_pre_init();
+
 	/* Set Initial global variables */
     gd->bd->bi_arch_number = MACH_TYPE_SMART210; // TODO: what code to use?
 	gd->bd->bi_boot_params = PHYS_SDRAM_1 + 0x100;
@@ -197,4 +212,13 @@ int misc_init_r(void)
 int board_usb_cleanup(int index, enum usb_init_type init)
 {
 	return 0;
+}
+
+int board_eth_init(bd_t *bis)
+{
+    int rc = 0;
+#ifdef CONFIG_DRIVER_DM9000
+    rc = dm9000_initialize(bis);
+#endif
+    return rc;
 }
