@@ -29,6 +29,10 @@
 #define S5PC110_ADDR_NCLE 0x08
 #define S5PC110_ADDR_NALE 0x0C
 
+#define MP0_1CON  (*(volatile u32 *)0xE02002E0)
+#define	MP0_3CON  (*(volatile u32 *)0xE0200320)
+#define	MP0_6CON  (*(volatile u32 *)0xE0200380)
+
 #ifdef CONFIG_NAND_SPL
 
 /* in the early stage of NAND flash booting, printf() is not available */
@@ -188,6 +192,12 @@ int board_nand_init(struct nand_chip *nand)
 	cfg = S5PC110_NFCONT_EN | S5PC110_NFCONT_nFCE;
 	writel(cfg, &nand_reg->nfcont);
 
+	/* Config GPIO */
+	MP0_1CON &= ~(0xFFFF << 8);
+	MP0_1CON |= (0x3333 << 8);
+	MP0_3CON = 0x22222222;
+	MP0_6CON = 0x22222222;
+
 	/* initialize nand_chip data structure */
 	nand->IO_ADDR_R = (void *)&nand_reg->nfdata;
 	nand->IO_ADDR_W = (void *)&nand_reg->nfdata;
@@ -213,11 +223,11 @@ int board_nand_init(struct nand_chip *nand)
 	nand->ecc.size = CONFIG_SYS_NAND_ECCSIZE;
 	nand->ecc.bytes = CONFIG_SYS_NAND_ECCBYTES;
 	nand->ecc.strength = 1;
-	nand->ecc.layout = nand_oob_512_16bit;
 	nand->ecc.read_page = s5pc110_nand_read_page_hwecc;
 #else
 	nand->ecc.mode = NAND_ECC_SOFT;
 #endif
+	nand->ecc.layout = &nand_oob_512_16bit;
 
 #ifdef CONFIG_S5PC110_NAND_BBT
 	nand->bbt_options |= NAND_BBT_USE_FLASH;
