@@ -94,6 +94,13 @@ config NAND_ZYNQ
 	  This enables Nand driver support for Nand flash controller
 	  found on Zynq SoC.
 
+config NAND_S5PC110
+	bool "Support for Samsung S5PC110 Nand controller"
+	depends on ARCH_S5PC1XX
+	help
+	  This enables Nand driver support for Nand flash controller
+	  found on Samsung S5PC110 SoC.
+
 comment "Generic NAND options"
 
 # Enhance depends when converting drivers to Kconfig which use this config
