@@ -9,6 +9,7 @@
 
 #include <nand.h>
 #include <asm/arch/cpu.h>
+#include <asm/arch/gpio.h>
 #include <asm/arch/nand.h>
 #include <asm/io.h>
 
@@ -25,13 +26,6 @@
 #define S5PC110_NFCONT_INITSECC    (1<<4)
 #define S5PC110_NFCONT_nFCE        (1<<1)
 #define S5PC110_NFCONT_EN          (1<<0)
-
-#define S5PC110_ADDR_NCLE 0x08
-#define S5PC110_ADDR_NALE 0x0C
-
-#define MP0_1CON  (*(volatile u32 *)0xE02002E0)
-#define	MP0_3CON  (*(volatile u32 *)0xE0200320)
-#define	MP0_6CON  (*(volatile u32 *)0xE0200380)
 
 #ifdef CONFIG_NAND_SPL
 
@@ -56,14 +50,12 @@ static void s5pc110_hwcontrol(struct mtd_info *mtd, int cmd, unsigned int ctrl)
 	debug("hwcontrol(): 0x%02x 0x%02x\n", cmd, ctrl);
 
 	if (ctrl & NAND_CTRL_CHANGE) {
-		ulong IO_ADDR_W = (ulong)nand;
-
 		if (ctrl & NAND_CLE)
-			IO_ADDR_W |= S5PC110_ADDR_NCLE;
-		if (ctrl & NAND_ALE)
-			IO_ADDR_W |= S5PC110_ADDR_NALE;
-
-		chip->IO_ADDR_W = (void *)IO_ADDR_W;
+			chip->IO_ADDR_W = &nand->nfcmmd;
+		else if (ctrl & NAND_ALE)
+			chip->IO_ADDR_W = &nand->nfaddr;
+		else
+			chip->IO_ADDR_W = &nand->nfdata;
 
 		if (ctrl & NAND_NCE)
 			writel(readl(&nand->nfcont) & ~S5PC110_NFCONT_nFCE,
@@ -193,10 +185,30 @@ int board_nand_init(struct nand_chip *nand)
 	writel(cfg, &nand_reg->nfcont);
 
 	/* Config GPIO */
-	MP0_1CON &= ~(0xFFFF << 8);
-	MP0_1CON |= (0x3333 << 8);
-	MP0_3CON = 0x22222222;
-	MP0_6CON = 0x22222222;
+	//MP0_1CON &= ~(0xFFFF << 8);
+	//MP0_1CON |= (0x3333 << 8);
+	gpio_cfg_pin(S5PC110_GPIO_MP012, S5P_GPIO_FUNC(0x3));
+	gpio_cfg_pin(S5PC110_GPIO_MP013, S5P_GPIO_FUNC(0x3));
+	gpio_cfg_pin(S5PC110_GPIO_MP014, S5P_GPIO_FUNC(0x3));
+	gpio_cfg_pin(S5PC110_GPIO_MP015, S5P_GPIO_FUNC(0x3));
+	//MP0_3CON = 0x22222222;
+	gpio_cfg_pin(S5PC110_GPIO_MP030, S5P_GPIO_FUNC(0x2));
+	gpio_cfg_pin(S5PC110_GPIO_MP031, S5P_GPIO_FUNC(0x2));
+	gpio_cfg_pin(S5PC110_GPIO_MP032, S5P_GPIO_FUNC(0x2));
+	gpio_cfg_pin(S5PC110_GPIO_MP033, S5P_GPIO_FUNC(0x2));
+	gpio_cfg_pin(S5PC110_GPIO_MP034, S5P_GPIO_FUNC(0x2));
+	gpio_cfg_pin(S5PC110_GPIO_MP035, S5P_GPIO_FUNC(0x2));
+	gpio_cfg_pin(S5PC110_GPIO_MP036, S5P_GPIO_FUNC(0x2));
+	gpio_cfg_pin(S5PC110_GPIO_MP037, S5P_GPIO_FUNC(0x2));
+	//MP0_6CON = 0x22222222;
+	gpio_cfg_pin(S5PC110_GPIO_MP060, S5P_GPIO_FUNC(0x2));
+	gpio_cfg_pin(S5PC110_GPIO_MP061, S5P_GPIO_FUNC(0x2));
+	gpio_cfg_pin(S5PC110_GPIO_MP062, S5P_GPIO_FUNC(0x2));
+	gpio_cfg_pin(S5PC110_GPIO_MP063, S5P_GPIO_FUNC(0x2));
+	gpio_cfg_pin(S5PC110_GPIO_MP064, S5P_GPIO_FUNC(0x2));
+	gpio_cfg_pin(S5PC110_GPIO_MP065, S5P_GPIO_FUNC(0x2));
+	gpio_cfg_pin(S5PC110_GPIO_MP066, S5P_GPIO_FUNC(0x2));
+	gpio_cfg_pin(S5PC110_GPIO_MP067, S5P_GPIO_FUNC(0x2));
 
 	/* initialize nand_chip data structure */
 	nand->IO_ADDR_R = (void *)&nand_reg->nfdata;
