@@ -113,6 +113,7 @@ void memzero(void *s, size_t n)
 		*ptr++ = '\0';
 }
 
+#if 0
 /**
  * Set up the U-Boot global_data pointer
  *
@@ -128,6 +129,7 @@ static void setup_global_data(gd_t *gdp)
 	gd->baudrate = CONFIG_BAUDRATE;
 	gd->have_console = 1;
 }
+#endif
 
 void power_exit_wakeup(void)
 {

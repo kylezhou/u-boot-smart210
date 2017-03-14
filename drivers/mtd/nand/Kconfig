@@ -101,6 +101,12 @@ config NAND_S5PC110
 	  This enables Nand driver support for Nand flash controller
 	  found on Samsung S5PC110 SoC.
 
+config S5PC110_NAND_HWECC
+	bool "Enable hardware ECC for S5PC110 Nand controller"
+	depends on NAND_S5PC110
+	help
+	  This enables hardware ECC on S5PC110 Nand controller.
+
 comment "Generic NAND options"
 
 # Enhance depends when converting drivers to Kconfig which use this config
