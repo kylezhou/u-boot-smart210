@@ -83,16 +83,18 @@
 #define CONFIG_G_DNL_UMS_PRODUCT_NUM 0xA4A5
 */
 
+#define CONFIG_CMD_MTDPARTS
+#define CONFIG_MTD_DEVICE
+#define CONFIG_MTD_PARTITIONS
+
 /* Actual modem binary size is 16MiB. Add 2MiB for bad block handling */
-#define MTDIDS_DEFAULT		"onenand0=samsung-onenand"
-#define MTDPARTS_DEFAULT	"mtdparts=samsung-onenand:1m(bootloader)"\
-				",256k(params)"\
-				",2816k(config)"\
-				",8m(csa)"\
-				",7m(kernel)"\
-				",1m(log)"\
-				",12m(modem)"\
-				",60m(qboot)\0"
+#define MTDIDS_DEFAULT		"nand0=samsung-nand"
+#define MTDPARTS_DEFAULT	"mtdparts=samsung-nand:1m(bootloader)"\
+				",3m(params)"\
+				",8m(kernel)"\
+				",10m(log)"\
+				",60m(test)"\
+				",-(rootfs)"
 
 /* partitions definitions */
 #define PARTS_CSA			"csa-mmc"
